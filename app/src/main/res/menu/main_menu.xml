@@ -5,4 +5,8 @@
         android:id="@+id/createNewProduct"
         android:title="Create Product"
         tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/closeSession"
+        android:title="Sign Off"
+        tools:ignore="HardcodedText" />
 </menu>

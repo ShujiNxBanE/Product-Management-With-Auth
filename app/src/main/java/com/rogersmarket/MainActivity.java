@@ -3,12 +3,14 @@ package com.rogersmarket;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +22,23 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     ListView listProducts;
+    TextView tvName;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tvName = findViewById(R.id.Name);
+
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        if (name != null) {
+            tvName.setText("Welcome " + name + "!");
+        } else {
+            tvName.setText("Welcome!");
+        }
 
         listProducts = findViewById(R.id.listViewProducts);
         new GetProducts().execute();
@@ -42,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.createNewProduct){
             Intent intent = new Intent(this,InsertProductActivity.class);
             startActivity(intent);
+            return true;
+        } else if(item.getItemId() == R.id.closeSession){
+            // Clean the state of session
+            SharedPreferences preferences = getSharedPreferences("user_details", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.apply();
+
+            // Redirect to login
+            Intent intent = new Intent(this, AuthActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
