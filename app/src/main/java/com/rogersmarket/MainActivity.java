@@ -42,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
         listProducts = findViewById(R.id.listViewProducts);
         new GetProducts().execute();
+
+        listProducts.setOnItemClickListener((parent, view, position, id) -> {
+            Product selectedProduct = ((ProductAdapter) parent.getAdapter()).getItem(position);
+            Intent intent2 = new Intent(MainActivity.this, EditProductActivity.class);
+            intent2.putExtra("product", selectedProduct);
+            startActivity(intent2);
+        });
     }
 
     @Override

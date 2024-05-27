@@ -52,4 +52,37 @@ public class WSJsonProducts extends WSJson {
 
         return estado.compareTo("1") == 0;
     }
+
+    public static boolean updateProduct(Product product) throws IOException, JSONException {
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put("id", product.getId());
+        jsonParam.put("name", product.getName());
+        jsonParam.put("amount", product.getAmount());
+        jsonParam.put("price", product.getPrice());
+        jsonParam.put("type", product.getType());
+        jsonParam.put("provider", product.getProvider());
+
+        JSONObject jsonResult = sendJson("http://" + SERVER + "/roger_market_db/update_product.php", jsonParam);
+
+        if (jsonResult == null) return false;
+
+        String estado = jsonResult.getString("estado");
+
+        return estado.compareTo("1") == 0;
+    }
+
+    public static boolean deleteProduct(int productId) throws IOException, JSONException {
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put("id", productId);
+
+        JSONObject jsonResult = sendJson("http://" + SERVER + "/roger_market_db/delete_product.php", jsonParam);
+
+        if (jsonResult == null) return false;
+
+        String estado = jsonResult.getString("estado");
+
+        return estado.compareTo("1") == 0;
+    }
+
+
 }

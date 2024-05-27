@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center"
             tools:ignore="UselessLeaf" >
 
             <TextView
@@ -72,6 +73,25 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/btnEditProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Product"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/btnDeleteProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Product"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
