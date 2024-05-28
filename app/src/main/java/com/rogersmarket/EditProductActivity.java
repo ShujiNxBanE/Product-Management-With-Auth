@@ -54,15 +54,44 @@ public class EditProductActivity extends AppCompatActivity {
     }
 
     public void btnEdit_Click(View v) {
-        // Validate and update product
-        existingProduct.setName(etName.getText().toString());
-        existingProduct.setAmount(etAmount.getText().toString());
-        existingProduct.setPrice(etPrice.getText().toString());
-        existingProduct.setType(etType.getText().toString());
-        existingProduct.setProvider(etProvider.getText().toString());
+
+        String name = etName.getText().toString().trim();
+        String amountStr = etAmount.getText().toString().trim();
+        String priceStr = etPrice.getText().toString().trim();
+        String type = etType.getText().toString().trim();
+        String provider = etProvider.getText().toString().trim();
+
+        if (name.isEmpty() || amountStr.isEmpty() || priceStr.isEmpty() || type.isEmpty() || provider.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int amount;
+        try {
+            amount = Integer.parseInt(amountStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Amount must be a valid number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double price;
+        try {
+            price = Double.parseDouble(priceStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Price must be a valid number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        existingProduct.setName(name);
+        existingProduct.setAmount(String.valueOf(amount));
+        existingProduct.setPrice(String.valueOf(price));
+        existingProduct.setType(type);
+        existingProduct.setProvider(provider);
 
         new EditProduct().execute(existingProduct);
     }
+
+    public void btnEdit_CancelClick(View v){ finish(); }
 
     @SuppressLint("StaticFieldLeak")
     private class EditProduct extends AsyncTask<Object, Object, Boolean> {

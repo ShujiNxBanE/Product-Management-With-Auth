@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".AuthActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/auth_icon2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
     <EditText
         android:id="@+id/register_etUser"
         android:layout_width="match_parent"
@@ -20,7 +32,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="Autofill,HardcodedText,LabelFor,
         TextFields,VisualLintTextFieldSize" />
 
@@ -42,7 +54,7 @@
         TextFields,VisualLintTextFieldSize" />
 
     <Button
-        android:id="@+id/register_btnStart"
+        android:id="@+id/register_btnLogIn"
         android:text="Start"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -66,7 +78,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register_btnStart"
+        app:layout_constraintTop_toBottomOf="@id/register_btnLogIn"
         tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

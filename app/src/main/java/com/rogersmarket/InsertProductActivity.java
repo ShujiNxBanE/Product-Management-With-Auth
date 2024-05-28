@@ -41,18 +41,45 @@ public class InsertProductActivity extends AppCompatActivity {
 
     }
 
-    public void btnAccept_Click(View v){
+    public void btnAccept_Click(View v) {
 
-        //Validate
+        String name = etName.getText().toString().trim();
+        String amountStr = etAmount.getText().toString().trim();
+        String priceStr = etPrice.getText().toString().trim();
+        String type = etType.getText().toString().trim();
+        String provider = etProvider.getText().toString().trim();
+
+        if (name.isEmpty() || amountStr.isEmpty() || priceStr.isEmpty() || type.isEmpty() || provider.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int amount;
+        try {
+            amount = Integer.parseInt(amountStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Amount must be a valid number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double price;
+        try {
+            price = Double.parseDouble(priceStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Price must be a valid number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Product product = new Product();
-        product.setName(etName.getText().toString());
-        product.setAmount(etAmount.getText().toString());
-        product.setPrice(etPrice.getText().toString());
-        product.setType(etType.getText().toString());
-        product.setProvider(etProvider.getText().toString());
+        product.setName(name);
+        product.setAmount(String.valueOf(amount));
+        product.setPrice(String.valueOf(price));
+        product.setType(type);
+        product.setProvider(provider);
 
         new InsertProduct().execute(product);
     }
+
 
     public void btnCancel_Click(View v){
         finish();

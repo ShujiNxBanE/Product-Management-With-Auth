@@ -6,16 +6,32 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Editing Product"
+        android:layout_marginTop="60dp"
+        android:textSize="28sp"
+        android:textStyle="italic"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
     <EditText
         android:id="@+id/edit_etName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+
         android:hint="Name"
         android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:ignore="Autofill,HardcodedText,VisualLintTextFieldSize" />
 
     <EditText
@@ -77,6 +93,18 @@
         android:text="Save"
         android:onClick="btnEdit_Click"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditCancel"
+        app:layout_constraintTop_toBottomOf="@id/edit_etProvider"
+        app:layout_constraintHorizontal_bias="0.5"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnEditCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:onClick="btnEdit_CancelClick"
+        app:layout_constraintStart_toEndOf="@+id/btnSaveChanges"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_etProvider"
         app:layout_constraintHorizontal_bias="0.5"

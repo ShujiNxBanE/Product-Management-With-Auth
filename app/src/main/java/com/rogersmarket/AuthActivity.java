@@ -3,10 +3,10 @@ package com.rogersmarket;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -61,61 +61,59 @@ public class AuthActivity extends AppCompatActivity {
         register_etPassword = findViewById(R.id.register_etPassword);
 
         auth_btnSignIn = findViewById(R.id.register_btnSignIn);
-        auth_btnStart = findViewById(R.id.register_btnStart);
+        auth_btnStart = findViewById(R.id.register_btnLogIn);
 
         auth_btnSignIn.setOnClickListener(v -> {
             Intent intent = new Intent(AuthActivity.this, SignInActivity.class);
             AuthActivity.this.startActivity(intent);
         });
 
-        auth_btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String username = register_etUser.getText().toString();
-                final String password = register_etPassword.getText().toString();
+        auth_btnStart.setOnClickListener(v -> {
+            final String username = register_etUser.getText().toString();
+            final String password = register_etPassword.getText().toString();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if (success){
-
-                                String name = jsonResponse.getString("name");
-
-                                // Save state of session
-                                SharedPreferences preferences = getSharedPreferences("user_details", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("name", name);
-                                editor.putString("username", username);
-                                editor.putString("password", password);
-                                editor.putBoolean("logged_in", true);
-                                editor.apply();
-
-                                Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-                                intent.putExtra("name", name);
-                                intent.putExtra("username", username);
-                                intent.putExtra("password", password);
-
-                                AuthActivity.this.startActivity(intent);
-                                finish();
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(AuthActivity.this);
-                                builder.setMessage("Error during Login.")
-                                        .setNegativeButton("Retry",null)
-                                        .create().show();
-                            }
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                };
-
-                LoginRequest loginRequest = new LoginRequest(username, password, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(AuthActivity.this);
-                queue.add(loginRequest);
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(AuthActivity.this, "Please enter both username and password", Toast.LENGTH_SHORT).show();
+                return;
             }
+            Response.Listener<String> responseListener = response -> {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+                    if (success){
+
+                        String name = jsonResponse.getString("name");
+
+                        // Save state of session
+                        SharedPreferences preferences1 = getSharedPreferences("user_details", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences1.edit();
+                        editor.putString("name", name);
+                        editor.putString("username", username);
+                        editor.putString("password", password);
+                        editor.putBoolean("logged_in", true);
+                        editor.apply();
+
+                        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+                        intent.putExtra("name", name);
+                        intent.putExtra("username", username);
+                        intent.putExtra("password", password);
+
+                        AuthActivity.this.startActivity(intent);
+                        finish();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AuthActivity.this);
+                        builder.setMessage("Error during Login.")
+                                .setNegativeButton("Retry",null)
+                                .create().show();
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            };
+
+            LoginRequest loginRequest = new LoginRequest(username, password, responseListener);
+            RequestQueue queue = Volley.newRequestQueue(AuthActivity.this);
+            queue.add(loginRequest);
         });
     }
 }
